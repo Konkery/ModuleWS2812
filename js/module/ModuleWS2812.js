@@ -70,10 +70,11 @@ class ClassLedStrip extends ClassActuator {
      * @param {number} _val - Насыщенность (яркость) для установки (число от 0 до 1).
      * @param {OnOptions} _opts - Объект опций.
      */
-    On(_chNum, _val, _opts) {
+    SetValue(_chNum, _val, _opts) {
         _val = E.clip(_val, 0, 1);
         let opts = _opts || {};
-        // if (!opts.color) return false;
+        if (_val == 0) 
+            return this.Off(_chNum, _opts);
 
         if (opts.color === 'random') 
             opts.color = generateColor(1);                 // в color присваивается массив [R, G, B]
@@ -93,9 +94,6 @@ class ClassLedStrip extends ClassActuator {
             opts.color = hexArrToColor(opts.color);
         }
         
-        // if ((_opts.color && !isColorValid(_opts.color)) ||                       //значение color соответствует шаблону 
-        //      _opts.ledNum < 0                           || 
-        //      _opts.ledNum >= this._Length) return false;
         if (opts.exclusive) this.SetLedColor({ color: [0, 0, 0] });
         if (opts.color) this.SetLedColor(opts);
 
@@ -108,6 +106,7 @@ class ClassLedStrip extends ClassActuator {
         if (!opts.saveState) this._Values = this._Values.fill(0);                  // если true, то _Values не будет обнуляться 
         sendData(this._Pins[0], new Uint8ClampedArray(this._Length*3).fill(0)); 
         this._ChStatus[_chNum] = 0;
+        return true;
     }
     /**
      * @method

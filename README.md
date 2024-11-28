@@ -47,10 +47,7 @@
     "article": "",
     "type": "actuator",
     "channelNames": ["color"],
-    "typeInSignals": ["digital"],
     "quantityChannel": 1,
-    "busTypes": [],
-    "manufacturingData": {},
     "modules": ["ModuleWS2812.min.js"]
 }
 ```
@@ -71,7 +68,6 @@
 <div style = "color: #555">
 
 - <mark style="background-color: lightblue">On(_chNum, _val, _opts)</mark> - устанавливает цвет и яркость одного либо всех пикселей ленты;
-- <mark style="background-color: lightblue">Off(_chNum, _opts)</mark> - выключает все пиксели на устройстве.
 
 </div>
 
@@ -84,21 +80,21 @@ let strip = SensorManager.CreateDevice('23')[0];
 // Выключение всех светодиодов
 strip.Off();        
 // Установка цвета для пикселей 0, 1, 2 в красный, зеленый и синий цвета, яркость 50%
-strip.On(0.5, { ledNum: 0, color: [255, 0, 0] });
-strip.On(0.5, { ledNum: 1, color: [0, 255, 0] });
-strip.On(0.5, { ledNum: 2, color: [0, 0, 255] });
+strip.SetValue(0.5, { ledNum: 0, color: [255, 0, 0] });
+strip.SetValue(0.5, { ledNum: 1, color: [0, 255, 0] });
+strip.SetValue(0.5, { ledNum: 2, color: [0, 0, 255] });
 
 // Аналогично можно задавать цвет с помощью  hexadecimal нотации
-// strip.On(0.5, { ledNum: 0, color: '#ff0000' });
-// strip.On(0.5, { ledNum: 1, color: '#00ff00' });
-// strip.On(0.5, { ledNum: 2, color: '#0000ff' });
+// strip.SetValue(0.5, { ledNum: 0, color: '#ff0000' });
+// strip.SetValue(0.5, { ledNum: 1, color: '#00ff00' });
+// strip.SetValue(0.5, { ledNum: 2, color: '#0000ff' });
 
 setTimeout(() => {
-    strip.Off({ saveState: true });       // saveState = true: цвета пикселей вернутся при следующем вызове On(...) 
+    strip.SetValue(0, { saveState: true });       // saveState = true: цвета пикселей вернутся при следующем вызове On(...) 
 }, 2000);
 
 setTimeout(() => {
-    strip.On(0.5);       // saveState = true: цвета пикселей вернутся при следующем вызове On(...) 
+    strip.SetValue(0.5);       // saveState = true: цвета пикселей вернутся при следующем вызове On(...) 
 }, 4000);
 
 ```
@@ -116,22 +112,22 @@ setTimeout(() => {
 let strip = SensorManager.CreateDevice('22')[0];
 // Установка цвета для пикселей 0, 1, 2 в красный, зеленый и синий цвета, яркость 50%
 // Включение каждого светодиода выключает все остальные
-strip.On(0.5, { ledNum: 0, color: [255, 0, 0], exclusive: true });
+strip.SetValue(0.5, { ledNum: 0, color: [255, 0, 0], exclusive: true });
 
 setTimeout(() => {
-    strip.On(0.5, { ledNum: 1, color: [0, 255, 0], exclusive: true });
+    strip.SetValue(0.5, { ledNum: 1, color: [0, 255, 0], exclusive: true });
 }, 500);
 
 setTimeout(() => {
-    strip.On(0.5, { ledNum: 2, color: [0, 0, 255], exclusive: true });
+    strip.SetValue(0.5, { ledNum: 2, color: [0, 0, 255], exclusive: true });
 }, 1000);
 
 setTimeout(() => {
-    strip.Off({ saveState: true });       // saveState = true: цвета пикселей вернутся при следующем вызове On(...) 
+    strip.SetValue(0, { saveState: true });       // saveState = true: цвета пикселей вернутся при следующем вызове On(...) 
 }, 2000);
 
 setTimeout(() => {
-    strip.On(0.5);       // saveState = true: цвета пикселей вернутся при следующем вызове On(...) 
+    strip.SetValue(0.5);       // saveState = true: цвета пикселей вернутся при следующем вызове On(...) 
 }, 4000);
 
 ```
@@ -170,7 +166,7 @@ strip.On(0.4, { color: [
 ```js
 let strip = SensorManager.CreateDevice('22')[0];
 // Установка всех пикселей в один случайно выбранный цвет, яркость 45%
-strip.On(0.45, { color: 'random' });  
+strip.SetValue(0.45, { color: 'random' });  
 ```
 
 <!-- <div align='center'>
@@ -186,7 +182,7 @@ strip.On(0.45, { color: 'random' });
 let strip = SensorManager.CreateDevice('22')[0];
 // Установка всех светодиодов в случайные цвета, яркость случайная
 setInterval(() => {
-    strip.On(Math.random(), { color: 'randomAll' });  
+    strip.SetValue(Math.random(), { color: 'randomAll' });  
 }, 3000);
 
 ```
